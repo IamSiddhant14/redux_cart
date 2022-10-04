@@ -8,15 +8,26 @@ body {
   padding: 20px;
   background: whitesmoke;
 }
+
 img {
   height: 80px;
 }
+
 .card {
   background: white;
   padding: 20px;
   text-align: center;
   border-radius: 10px;
+  width: 160px;
+  
 }
+
+.card:hover {
+  transition: transform .3s ease;
+  transform: scale(1.1);
+}
+
+
 .productsWrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -36,6 +47,7 @@ img {
 
 .btn:hover {
   background: #513282;
+  transform: scale(1.1);
 }
 
 .heading {
@@ -61,3 +73,5 @@ img {
   padding: 14px;
   border-radius: 5px;
 }
+
+

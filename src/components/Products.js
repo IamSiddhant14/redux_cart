@@ -1,24 +1,37 @@
-import React , { useState , useEffect } from 'react' ;
+import React , { useEffect } from 'react' ;
+import { useDispatch , useSelector } from 'react-redux';
+import { add } from '../store/cartSlice';
+import { fetchProducts } from '../store/productsSlice';
+import { STATUSES } from '../store/productsSlice';
 
 const Products = () => {
+    const dispatch = useDispatch();
+    const { data: products, status } = useSelector((state) => state.product);
+    // const [products, setProducts] = useState([]);
 
-    const [ products , setProducts ] = useState([]);
+    useEffect(() => {
+        dispatch(fetchProducts());
+        // const fetchProducts = async () => {
+        //     const res = await fetch('https://fakestoreapi.com/products');
+        //     const data = await res.json();
+        //     console.log(data);
+        //     setProducts(data);
+        // };
+        // fetchProducts();
+    }, []);
 
-    useEffect( () =>{
+    const handleAdd = (product) => {
+        dispatch(add(product))
+    }
 
-        const fetchProducts = async ( ) =>{
+    if( status === STATUSES.LOADING ){
+      return <h2> Loading.... </h2>
+    }
 
-            const res = await fetch('https://fakestoreapi.com/products');
-
-            const data = await res.json();
-            setProducts(data);
-
-        }
-
-        fetchProducts();
-
-    } , [] );
-
+    if (status === STATUSES.ERROR) {
+        return <h2>Something went wrong!</h2>;
+    }
+    
     return (
 
         <div className="productsWrapper">
@@ -27,14 +40,14 @@ const Products = () => {
 
             products.map( (product) =>(
 
-                 <div classsName="card" key={product.id}>
+                 <div className="card" key={product.id}>
 
                     <img src={product.image} alt={product.title} />
                     <h4>{product.title}</h4>
                     <h4>{product.price}</h4>
-                    <button className='btn'>
+                    <button onClick={() => handleAdd(product)} className='btn'>
                         Add To Cart
-                    </button>
+                    </button> 
 
                  </div>
 
